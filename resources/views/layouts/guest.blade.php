@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title', 'Iniciar Sesión') - ContaSys</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,6 +20,7 @@
                 <a href="/">
                     <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </a>
+                <span class="ml-2 text-2xl font-bold text-gray-700 dark:text-gray-300">ContaSys</span>
             </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">

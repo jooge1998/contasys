@@ -16,23 +16,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => Hash::make('password'),
+            ]
+        );
 
         $this->call([
             RoleSeeder::class,
+            RolesAndPermissionsSeeder::class,
+            AdminUserSeeder::class,
+            AuditorUserSeeder::class,
         ]);
 
-        // Crear usuario administrador
-        $admin = User::create([
-            'name' => 'Administrador',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('admin123'),
-        ]);
-
-        // Asignar rol de administrador
-        $admin->assignRole('Administrador');
+        // The admin user creation logic is now handled by AdminUserSeeder.php
+        // No need to create it here again.
     }
 }

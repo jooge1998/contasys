@@ -7,6 +7,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,7 +27,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Settings Routes
     Route::get('/settings', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
+    Route::put('/settings', [App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -46,6 +47,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Rutas para Auditor
     Route::middleware(['check.role:Auditor'])->group(function () {
         Route::get('/audit', [AuditController::class, 'index'])->name('audit.index');
+    });
+
+    // Role Management Routes
+    Route::middleware(['auth', 'role:Administrador'])->group(function () {
+        Route::resource('roles', RoleController::class);
     });
 });
 
