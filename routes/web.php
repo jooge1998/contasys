@@ -1,0 +1,52 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\AuditController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    // Inventory Routes
+    Route::resource('inventory', App\Http\Controllers\InventoryController::class);
+
+    // Reports Routes
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/transactions', [App\Http\Controllers\ReportController::class, 'transactions'])->name('reports.transactions');
+    Route::get('/reports/inventory', [App\Http\Controllers\ReportController::class, 'inventory'])->name('reports.inventory');
+
+    // Settings Routes
+    Route::get('/settings', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
+
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Rutas para Administrador
+    Route::middleware(['check.role:Administrador'])->group(function () {
+        Route::resource('users', UserController::class);
+    });
+
+    // Rutas para Administrador y Contador
+    Route::middleware(['check.role:Administrador,Contador'])->group(function () {
+        Route::resource('transactions', TransactionController::class);
+        Route::resource('inventories', InventoryController::class);
+    });
+
+    // Rutas para Auditor
+    Route::middleware(['check.role:Auditor'])->group(function () {
+        Route::get('/audit', [AuditController::class, 'index'])->name('audit.index');
+    });
+});
+
+require __DIR__.'/auth.php';
