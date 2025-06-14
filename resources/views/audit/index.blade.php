@@ -21,59 +21,79 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Resumen de Transacciones</h3>
-                        <div class="flex justify-between items-center">
-                            <div class="text-green-600 dark:text-green-400 font-bold text-xl">
-                                Ingreso Total: ${{ number_format($totalIncome, 2) }}
+                    <div class="mb-6 p-6 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Resumen de Transacciones</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
+                                <div class="text-sm text-green-600 dark:text-green-400 mb-1">Ingreso Total</div>
+                                <div class="text-2xl font-bold text-green-700 dark:text-green-300">
+                                    ${{ number_format($totalIncome, 2) }}
+                                </div>
                             </div>
-                            <div class="text-red-600 dark:text-red-400 font-bold text-xl">
-                                Gastos Totales: ${{ number_format($totalExpenses, 2) }}
+                            <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800">
+                                <div class="text-sm text-red-600 dark:text-red-400 mb-1">Gastos Totales</div>
+                                <div class="text-2xl font-bold text-red-700 dark:text-red-300">
+                                    ${{ number_format($totalExpenses, 2) }}
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Usuario</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Evento</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo de Entidad</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valores Antiguos</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valores Nuevos</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cambios</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @forelse($audits as $audit)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $audit->created_at->format('d/m/Y H:i:s') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $audit->user ? $audit->user->name : 'N/A' }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ ucfirst($audit->event) . ' ' . class_basename($audit->auditable_type) }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ class_basename($audit->auditable_type) }}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                            @if($audit->old_values)
-                                                @foreach($audit->old_values as $key => $value)
-                                                    <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong> {{ is_array($value) ? json_encode($value) : $value }}<br>
-                                                @endforeach
-                                            @else
-                                                N/A
-                                            @endif
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                            {{ $audit->created_at->format('d/m/Y H:i:s') }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                            {{ $audit->user ? $audit->user->name : 'N/A' }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                                {{ $audit->event === 'created' ? 'bg-green-100 text-green-800' : 
+                                                   ($audit->event === 'updated' ? 'bg-blue-100 text-blue-800' : 
+                                                   'bg-red-100 text-red-800') }}">
+                                                {{ ucfirst($audit->event) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                            {{ class_basename($audit->auditable_type) }}
                                         </td>
                                         <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                             @if($audit->new_values)
-                                                @foreach($audit->new_values as $key => $value)
-                                                    <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong> {{ is_array($value) ? json_encode($value) : $value }}<br>
-                                                @endforeach
+                                                <div class="space-y-1">
+                                                    @foreach($audit->new_values as $key => $value)
+                                                        <div class="flex items-start">
+                                                            <span class="font-medium text-gray-700 dark:text-gray-300 mr-2">
+                                                                {{ ucfirst(str_replace('_', ' ', $key)) }}:
+                                                            </span>
+                                                            <span class="text-gray-600 dark:text-gray-400">
+                                                                {{ is_array($value) ? json_encode($value) : $value }}
+                                                            </span>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
                                             @else
-                                                N/A
+                                                <span class="text-gray-400">N/A</span>
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No hay registros de auditoría disponibles.</td>
+                                        <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                            No hay registros de auditoría disponibles.
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
