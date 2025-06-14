@@ -40,9 +40,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Rutas para Administrador y Contador
     Route::middleware(['check.role:Administrador,Contador'])->group(function () {
-        Route::resource('transactions', TransactionController::class);
-        Route::resource('inventories', InventoryController::class);
+        Route::post('transactions', [TransactionController::class, 'store'])->name('transactions.store');
+        Route::get('transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
+        Route::get('transactions/{transaction}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+        Route::put('transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
+        Route::delete('transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+        Route::post('inventories', [InventoryController::class, 'store'])->name('inventories.store');
+        Route::get('inventories/create', [InventoryController::class, 'create'])->name('inventories.create');
+        Route::get('inventories/{inventory}/edit', [InventoryController::class, 'edit'])->name('inventories.edit');
+        Route::put('inventories/{inventory}', [InventoryController::class, 'update'])->name('inventories.update');
+        Route::delete('inventories/{inventory}', [InventoryController::class, 'destroy'])->name('inventories.destroy');
     });
+
+    // Rutas de solo lectura para todos los usuarios autenticados
+    Route::get('transactions', [TransactionController::class, 'index'])->name('transactions.index');
+    Route::get('transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
+    Route::get('inventories', [InventoryController::class, 'index'])->name('inventories.index');
+    Route::get('inventories/{inventory}', [InventoryController::class, 'show'])->name('inventories.show');
 
     // Rutas para Auditor
     Route::middleware(['check.role:Auditor'])->group(function () {

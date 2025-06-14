@@ -4,9 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Transacciones') }}
             </h2>
+            @role(['Administrador', 'Contador'])
             <a href="{{ route('transactions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Nueva Transacción
             </a>
+            @endrole
         </div>
     </x-slot>
 
@@ -29,7 +31,9 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                                    @role(['Administrador', 'Contador'])
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                    @endrole
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -44,6 +48,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap">${{ number_format($transaction->amount, 2) }}</td>
                                         <td class="px-6 py-4">{{ $transaction->description }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $transaction->user->name }}</td>
+                                        @role(['Administrador', 'Contador'])
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <a href="{{ route('transactions.edit', $transaction) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
                                             <form action="{{ route('transactions.destroy', $transaction) }}" method="POST" class="inline">
@@ -54,6 +59,7 @@
                                                 </button>
                                             </form>
                                         </td>
+                                        @endrole
                                     </tr>
                                 @endforeach
                             </tbody>

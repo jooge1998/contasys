@@ -125,15 +125,21 @@
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Acciones Rápidas</h3>
                         <div class="grid grid-cols-2 gap-4">
+                            @role(['Administrador', 'Contador'])
                             <a href="{{ route('transactions.create') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                 Nueva Transacción
                             </a>
                             <a href="{{ route('inventory.create') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                                 Agregar Inventario
                             </a>
+                            @endrole
+
+                          <!--   @role(['Administrador', 'Contador', 'Auditor'])
                             <a href="{{ route('reports.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                                 Ver Reportes
                             </a>
+                            @endrole -->
+
                             <a href="{{ route('settings.index') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                                 Configuración
                             </a>
