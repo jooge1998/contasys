@@ -17,6 +17,9 @@ class AuditController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        return view('audit.index', compact('audits'));
+        $totalIncome = Transaction::where('type', 'Ingreso')->sum('amount');
+        $totalExpenses = Transaction::where('type', 'Egreso')->sum('amount');
+
+        return view('audit.index', compact('audits', 'totalIncome', 'totalExpenses'));
     }
 } 

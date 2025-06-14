@@ -21,6 +21,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">Resumen de Transacciones</h3>
+                        <div class="flex justify-between items-center">
+                            <div class="text-green-600 dark:text-green-400 font-bold text-xl">
+                                Ingreso Total: ${{ number_format($totalIncome, 2) }}
+                            </div>
+                            <div class="text-red-600 dark:text-red-400 font-bold text-xl">
+                                Gastos Totales: ${{ number_format($totalExpenses, 2) }}
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
