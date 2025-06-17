@@ -37,6 +37,13 @@
                             </div>
 
                             <div>
+                                <x-input-label for="min_stock" :value="__('Stock Mínimo')" />
+                                <x-text-input id="min_stock" name="min_stock" type="number" min="0" step="1" class="mt-1 block w-full" :value="old('min_stock')" required />
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Cantidad mínima de stock antes de mostrar alerta</p>
+                                <x-input-error class="mt-2" :messages="$errors->get('min_stock')" />
+                            </div>
+
+                            <div>
                                 <x-input-label for="unit_price" :value="__('Precio Unitario')" />
                                 <x-text-input id="unit_price" name="unit_price" type="number" min="0" step="0.01" class="mt-1 block w-full" :value="old('unit_price')" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('unit_price')" />
@@ -54,4 +61,58 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const minStockInput = document.getElementById('min_stock');
+            
+            function checkStockLevel() {
+                const quantity = parseInt(quantityInput.value) || 0;
+                const minStock = parseInt(minStockInput.value) || 0;
+                
+                if (quantity <= minStock) {
+                    // Show alert
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 dark:bg-yellow-900/20 dark:border-yellow-500 dark:text-yellow-300';
+                    alertDiv.innerHTML = `
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm">¡Alerta! El stock está por debajo del mínimo establecido.</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Remove any existing alert
+                    const existingAlert = document.querySelector('.mt-4.p-4.bg-yellow-100');
+                    if (existingAlert) {
+                        existingAlert.remove();
+                    }
+                    
+                    // Add new alert after the form
+                    document.querySelector('form').insertAdjacentElement('afterend', alertDiv);
+                } else {
+                    // Remove alert if it exists
+                    const existingAlert = document.querySelector('.mt-4.p-4.bg-yellow-100');
+                    if (existingAlert) {
+                        existingAlert.remove();
+                    }
+                }
+            }
+            
+            // Add event listeners
+            quantityInput.addEventListener('input', checkStockLevel);
+            minStockInput.addEventListener('input', checkStockLevel);
+            
+            // Initial check
+            checkStockLevel();
+        });
+    </script>
+    @endpush
 </x-app-layout> 

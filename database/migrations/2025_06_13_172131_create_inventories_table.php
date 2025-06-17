@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('quantity');
+            $table->integer('min_stock')->default(10);
             $table->decimal('unit_price', 12, 2);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

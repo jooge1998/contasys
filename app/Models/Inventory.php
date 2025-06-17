@@ -10,11 +10,16 @@ class Inventory extends Model implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable;
 
+    protected $table = 'inventories';
+
     protected $fillable = [
         'name',
         'description',
         'quantity',
+        'min_stock',
         'unit_price',
+        'category',
+        'status',
         'user_id'
     ];
 

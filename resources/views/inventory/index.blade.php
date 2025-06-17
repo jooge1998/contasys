@@ -25,6 +25,7 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Producto</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cantidad</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Unitario</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor Total</th>
@@ -34,11 +35,15 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($items as $item)
-                                    <tr class="{{ $item->quantity < 10 ? 'bg-red-50' : '' }}">
+                                    <tr class="{{ $item->quantity <= $item->min_stock ? 'bg-red-50' : '' }}">
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $item->name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $item->min_stock }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->quantity < 10 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->quantity <= $item->min_stock ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800' }}">
                                                 {{ $item->quantity }}
+                                                @if($item->quantity <= $item->min_stock)
+                                                    <span class="ml-1 text-xs">(Mín: {{ $item->min_stock }})</span>
+                                                @endif
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">${{ number_format($item->unit_price, 2) }}</td>

@@ -33,8 +33,15 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <x-input-label for="quantity" :value="__('Cantidad')" />
-                                <x-text-input id="quantity" name="quantity" type="number" min="0" step="1" class="mt-1 block w-full" :value="old('quantity', $inventory->quantity)" required />
+                                <x-text-input id="quantity" name="quantity" type="number" step="0.01" class="mt-1 block w-full" :value="old('quantity', $inventory->quantity)" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="min_stock" :value="__('Stock Mínimo')" />
+                                <x-text-input id="min_stock" name="min_stock" type="number" min="0" step="1" class="mt-1 block w-full" :value="old('min_stock', $inventory->min_stock)" required />
+                                <x-input-error class="mt-2" :messages="$errors->get('min_stock')" />
+                                <p class="mt-1 text-sm text-gray-500">Cantidad mínima de stock antes de mostrar alerta</p>
                             </div>
 
                             <div>

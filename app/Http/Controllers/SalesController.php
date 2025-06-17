@@ -21,7 +21,7 @@ class SalesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'inventory_id' => 'required|exists:inventory,id',
+            'inventory_id' => 'required|exists:inventories,id',
             'quantity' => 'required|numeric|min:1',
         ]);
 
