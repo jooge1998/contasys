@@ -36,7 +36,7 @@
                                 @foreach($inventories as $item)
                                 <tr @if($item->quantity <= $item->min_stock) class="bg-red-50 dark:bg-red-900/20" @endif>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item->id }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item->product_name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                                         <span class="font-semibold {{ $item->quantity <= $item->min_stock ? 'text-red-600' : '' }}">{{ $item->quantity }}</span>
                                         <span class="text-xs text-gray-500">/ {{ $item->min_stock }}</span>

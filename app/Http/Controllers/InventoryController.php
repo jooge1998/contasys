@@ -12,8 +12,8 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        $items = Inventory::latest()->paginate(10);
-        return view('inventory.index', compact('items'));
+        $inventories = Inventory::with('user')->latest()->paginate(10);
+        return view('inventories.index', compact('inventories'));
     }
 
     /**
@@ -21,7 +21,7 @@ class InventoryController extends Controller
      */
     public function create()
     {
-        return view('inventory.create');
+        return view('inventories.create');
     }
 
     /**
@@ -33,6 +33,7 @@ class InventoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'quantity' => 'required|numeric|min:0',
+            'min_stock' => 'required|numeric|min:0',
             'unit_price' => 'required|numeric|min:0',
         ]);
 
@@ -40,7 +41,7 @@ class InventoryController extends Controller
 
         Inventory::create($validated);
 
-        return redirect()->route('inventory.index')
+        return redirect()->route('inventories.index')
             ->with('success', 'Item agregado exitosamente.');
     }
 
@@ -57,7 +58,7 @@ class InventoryController extends Controller
      */
     public function edit(Inventory $inventory)
     {
-        return view('inventory.edit', compact('inventory'));
+        return view('inventories.edit', compact('inventory'));
     }
 
     /**
@@ -69,12 +70,13 @@ class InventoryController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'quantity' => 'required|numeric|min:0',
+            'min_stock' => 'required|numeric|min:0',
             'unit_price' => 'required|numeric|min:0',
         ]);
 
         $inventory->update($validated);
 
-        return redirect()->route('inventory.index')
+        return redirect()->route('inventories.index')
             ->with('success', 'Item actualizado exitosamente.');
     }
 
