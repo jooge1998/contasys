@@ -1,14 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Nuevo Producto en Inventario') }}
-        </h2>
+        <div class="flex justify-between items-center bg-blue-50 dark:bg-blue-900 px-6 py-4 rounded-t-lg shadow">
+            <h2 class="font-semibold text-xl text-blue-900 dark:text-blue-100 leading-tight">
+                {{ __('Nuevo Producto en Inventario') }}
+            </h2>
+        </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <div class="py-12 bg-gray-100 dark:bg-gray-900 min-h-screen">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    @if(session('success'))
+                        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative shadow" role="alert">
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('inventories.store') }}" class="space-y-6">
                         @csrf
 
@@ -48,9 +55,9 @@
                             <x-input-error class="mt-2" :messages="$errors->get('description')" />
                         </div>
 
-                        <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('Guardar') }}</x-primary-button>
-                            <a href="{{ route('inventories.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                        <div class="flex items-center gap-4 mt-6">
+                            <x-primary-button class="bg-blue-600 hover:bg-blue-700 text-white shadow">{{ __('Guardar') }}</x-primary-button>
+                            <a href="{{ route('inventories.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                                 {{ __('Cancelar') }}
                             </a>
                         </div>
