@@ -5,9 +5,14 @@
                 {{ __('Gestión de Transacciones') }}
             </h2>
             @role(['Administrador', 'Contador'])
-            <a href="{{ route('transactions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Nueva Transacción
-            </a>
+            <div class="flex gap-4">
+                <a href="{{ route('transactions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Nueva Transacción
+                </a>
+                <a href="{{ route('sales.create') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    Crear Venta
+                </a>
+            </div>
             @endrole
         </div>
     </x-slot>
