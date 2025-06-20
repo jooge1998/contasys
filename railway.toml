@@ -41,11 +41,11 @@ command = "php artisan db:seed --force"
 
 [[build.steps]]
 name = "Verify Users in DB"
-command = "php artisan tinker --execute=\"echo 'Users after seed:'; App\\Models\\User::all(['name', 'email'])->each(function(\$user) { echo ' -> ' . \$user->name . ' (' . \$user->email . ')' . PHP_EOL; });\""
+command = "php artisan tinker --execute='echo \"Users after seed:\"; App\\Models\\User::all([\"name\", \"email\"])->each(function($user) { echo \" -> \" . $user->name . \" (\" . $user->email . \")\" . PHP_EOL; });'"
 
 [[build.steps]]
 name = "Verify Roles in DB"
-command = "php artisan tinker --execute=\"echo 'Roles after seed:'; Spatie\\Permission\\Models\\Role::all(['name'])->each(function(\$role) { echo ' -> ' . \$role->name . PHP_EOL; });\""
+command = "php artisan tinker --execute='echo \"Roles after seed:\"; Spatie\\Permission\\Models\\Role::all([\"name\"])->each(function($role) { echo \" -> \" . $role->name . PHP_EOL; });'"
 
 [[build.steps]]
 name = "Cache configuration"
