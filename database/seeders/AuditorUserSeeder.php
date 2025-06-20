@@ -16,7 +16,7 @@ class AuditorUserSeeder extends Seeder
     public function run(): void
     {
         // Create Auditor User
-        $auditor = User::firstOrCreate(
+        $auditor = User::updateOrCreate(
             ['email' => 'auditor@contasys.com'],
             [
                 'name' => 'Auditor ContaSys',
