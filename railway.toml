@@ -32,6 +32,10 @@ name = "Run migrations"
 command = "php artisan migrate --force"
 
 [[build.steps]]
+name = "Run seeders"
+command = "php artisan db:seed --force"
+
+[[build.steps]]
 name = "Cache configuration"
 command = "php artisan config:cache"
 
