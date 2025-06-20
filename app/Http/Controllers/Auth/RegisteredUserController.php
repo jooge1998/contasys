@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -41,12 +42,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Asignar rol por defecto
-        $user->assignRole('Usuario');
-
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Asignar rol por defecto, creándolo si no existe
+        $role = Role::firstOrCreate(['name' => 'Usuario', 'guard_name' => 'web']);
+        $user->assignRole($role);
 
         return redirect(route('dashboard', absolute: false));
     }
