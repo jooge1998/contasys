@@ -28,12 +28,8 @@ name = "Generate application key"
 command = "php artisan key:generate --force"
 
 [[build.steps]]
-name = "Run migrations"
-command = "php artisan migrate --force"
-
-[[build.steps]]
-name = "Run seeders"
-command = "php artisan db:seed --force"
+name = "Wipe DB, Migrate & Seed"
+command = "php artisan migrate:fresh --seed --force"
 
 [[build.steps]]
 name = "Cache configuration"
