@@ -7,27 +7,34 @@ healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 
-[build.steps]
-- name = "Install PHP dependencies"
-  command = "composer install --no-dev --optimize-autoloader"
+[[build.steps]]
+name = "Install PHP dependencies"
+command = "composer install --no-dev --optimize-autoloader"
 
-- name = "Install Node.js dependencies"
-  command = "npm ci"
+[[build.steps]]
+name = "Install Node.js dependencies"
+command = "npm ci"
 
-- name = "Build assets"
-  command = "npm run build"
+[[build.steps]]
+name = "Build assets"
+command = "npm run build"
 
-- name = "Generate application key"
-  command = "php artisan key:generate"
+[[build.steps]]
+name = "Generate application key"
+command = "php artisan key:generate --force"
 
-- name = "Run migrations"
-  command = "php artisan migrate --force"
+[[build.steps]]
+name = "Run migrations"
+command = "php artisan migrate --force"
 
-- name = "Cache configuration"
-  command = "php artisan config:cache"
+[[build.steps]]
+name = "Cache configuration"
+command = "php artisan config:cache"
 
-- name = "Cache routes"
-  command = "php artisan route:cache"
+[[build.steps]]
+name = "Cache routes"
+command = "php artisan route:cache"
 
-- name = "Cache views"
-  command = "php artisan view:cache" 
+[[build.steps]]
+name = "Cache views"
+command = "php artisan view:cache" 
