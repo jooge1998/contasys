@@ -20,6 +20,10 @@ name = "Build assets"
 command = "npm run build"
 
 [[build.steps]]
+name = "Verify build output"
+command = "ls -R public/build"
+
+[[build.steps]]
 name = "Generate application key"
 command = "php artisan key:generate --force"
 
